@@ -1,5 +1,6 @@
 .quiz-card {
-    background-color: #1dc0cc; /* Background color */
+    background-color: #1dc0cc;
+    padding: 3%; /* Background color */
   }
   
   .quiz-question {
@@ -35,6 +36,7 @@
   }
   
   .option-letter {
-    font-weight: bold; /* Bold font weight */
+    font-weight: bold; 
+    background-color: #ffffff;/* Bold font weight */
   }
   

@@ -40,7 +40,6 @@ export default function QuizCard({
                 className="quiz-option"
                 onClick={() => handleAnswerClick(index)}
               >
-                <span className="option-letter">{String.fromCharCode(65 + index)}</span> {/* Convert index to letters A, B, C, D */}
                 <span className="ml-2">{option}</span> {/* Option text */}
               </Button>
             </div>
@@ -60,4 +59,4 @@ export default function QuizCard({
       </CardBody>
     </Card>
   );
-}  
+}

@@ -202,18 +202,21 @@ const QuizApp = () => {
               options={quiz[questionNumber].options}
               checkAnswer={checkAnswer}
             />
-            <div className={`${questionNumber === 9 ? "invisible" : ""} flex justify-end mt-5`}>
-              <Button onClick={() => setQuestionNumber(questionNumber + 1)} className="bg-green-500 text-white cursive px-4 py-2 rounded-full">
-                Next
-              </Button>
-            </div>
-            {questionNumber === 9 && (
-              <div className="mt-5">
-                <Button onClick={() => document.location.reload()} className="bg-green-500 text-white cursive px-4 py-2 rounded-full">
-                  Try Another
-                </Button>
-              </div>
-            )}
+          <div className={`${questionNumber === 9 ? "invisible" : ""} flex justify-end mt-5`}>
+  <button onClick={() => setQuestionNumber(questionNumber + 1)} className="next-button mt-3">
+    Next
+  </button>
+</div>
+{questionNumber === 9 && (
+  <div className="mt-5">
+    <button onClick={() => document.location.reload()} className="next-button">
+      Try Another
+    </button>
+  </div>
+)}
+
+
+            
           </>
         )}
       </div>
