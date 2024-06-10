@@ -1,0 +1,40 @@
+.quiz-card {
+    background-color: #1dc0cc; /* Background color */
+  }
+  
+  .quiz-question {
+    color: #000; /* Text color for questions */
+    font-weight: bold; /* Bold font weight */
+    font-family: 'Pacifico', cursive; /* Cursive font */
+  }
+  
+  .quiz-option {
+    color: #000; /* Text color for options */
+    font-weight: bold; /* Bold font weight */
+    font-family: 'Pacifico', cursive; /* Cursive font */
+  }
+  
+  .correct-answer {
+    color: #008000; /* Dark green color for correct answers */
+    font-weight: bold; /* Bold font weight */
+    font-family: 'Pacifico', cursive; /* Cursive font */
+  }
+  
+  .incorrect-answer {
+    color: #ff0000; /* Red color for incorrect answers */
+    font-weight: bold; /* Bold font weight */
+    font-family: 'Pacifico', cursive; /* Cursive font */
+  }
+  
+  .option-box {
+    background-color: #ffffff; /* White background color for option boxes */
+    border: 1px solid #000000; /* Black border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px; /* Padding for inner content */
+    margin-bottom: 10px; /* Bottom margin */
+  }
+  
+  .option-letter {
+    font-weight: bold; /* Bold font weight */
+  }
+  
