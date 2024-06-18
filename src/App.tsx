@@ -18,7 +18,7 @@ function App() {
         display="flex"
         flexDirection="column"
         minHeight="100vh"
-        bgImage="url('https://img.freepik.com/free-vector/hand-painted-watercolor-abstract-background_23-2148998041.jpg?size=626&ext=jpg&ga=GA1.1.1141335507.1718582400&semt=ais_user')"
+         bgGradient="linear(to-r, #3a7bd5, #3a6073)"
         bgSize="cover"
         bgPosition="center"
       >

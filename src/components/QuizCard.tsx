@@ -49,12 +49,14 @@ const QuizCard = ({
             isDisabled={selectedAnswer !== null}
             onClick={() => handleAnswerClick(index)}
             w="full"
+            minH="60px"
             bg={selectedAnswer === index ? "blue.500" : "gray.200"}
             color={selectedAnswer === index ? "white" : "black"}
             _hover={{ bg: selectedAnswer === index ? "blue.600" : "gray.300" }}
             py={6}
             className="quiz-option"
             whiteSpace="normal"
+            overflowWrap="break-word"
             textAlign="center"
           >
             <Text fontSize="md">{option}</Text>

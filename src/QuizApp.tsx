@@ -40,30 +40,28 @@ const QuizApp = () => {
   const [questionNumber, setQuestionNumber] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selectedTopic, setSelectedTopic] = useState("");
-  const [quizStarted, setQuizStarted] = useState(false); // New state variable
+  const [quizStarted, setQuizStarted] = useState(false);
   const toast = useToast();
 
   const topics = [
     "Budgeting Basics",
-"Saving Strategies",
-"Understanding Credit Scores",
-"Debt Management",
-"Investing for Beginners",
-"Types of Bank Accounts",
-"Financial Goals Setting",
-"Insurance Basics",
-"Retirement Planning",
-
-"Portfolio Optimization",
-"Advanced Options Trading",
-"Alternative Investments",
-"Risk Management",
-"Financial Modeling",
-"Derivatives Trading",
-"Behavioral Finance",
-"Mergers & Acquisitions",
-"International Finance",
-    
+    "Saving Strategies",
+    "Understanding Credit Scores",
+    "Debt Management",
+    "Investing for Beginners",
+    "Types of Bank Accounts",
+    "Financial Goals Setting",
+    "Insurance Basics",
+    "Retirement Planning",
+    "Portfolio Optimization",
+    "Advanced Options Trading",
+    "Alternative Investments",
+    "Risk Management",
+    "Financial Modeling",
+    "Derivatives Trading",
+    "Behavioral Finance",
+    "Mergers & Acquisitions",
+    "International Finance",
   ];
 
   const topicsLeft = topics.slice(0, Math.ceil(topics.length / 2));
@@ -83,7 +81,7 @@ const QuizApp = () => {
     setCountCorrect(0);
     setLoading(true);
     try {
-      const prompt = `Generate a JSON array of 10 multiple-choice questions with 4 options and 1 correct answer based on the following topic: ${topic} and difficulty level: ${difficulty}. Use this format 
+      const prompt = `Generate a JSON array containing 10 different multiple-choice questions on the topic "${topic}" with a difficulty level of "${difficulty}". Each question should have 4 options and indicate the correct answer. Use this format 
         [
           {
             "question": "",
@@ -108,7 +106,7 @@ const QuizApp = () => {
       });
       const data: QuizQuestion[] = JSON.parse(response.choices[0].text);
       setQuiz(data);
-      setQuizStarted(true); // Quiz started
+      setQuizStarted(true);
     } catch (error) {
       toast({
         title: "Error generating quiz.",
@@ -123,6 +121,16 @@ const QuizApp = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!topic || !difficulty) {
+      toast({
+        title: "Incomplete Selection",
+        description: "Please select both the topic and difficulty first.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
     generateQuiz();
   };
 
@@ -164,8 +172,7 @@ const QuizApp = () => {
       direction="column"
       align="center"
       style={{
-        backgroundImage:
-          'url("watercolor-abstract-background_23-2148998041.jpg?size=626&ext=jpg&ga=GA1.1.1141335507.1718582400&semt=ais_user")',
+        background: "linear-gradient(to right, #3a7bd5, #3a6073)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -232,7 +239,13 @@ const QuizApp = () => {
             {/* Start Quiz Section */}
             {quiz.length === 0 && (
               <Center>
-                <Box bgGradient="linear(to-r, #318ce7, #82BDD3)" as="form" onSubmit={handleSubmit} w="full" maxW="md">
+                <Box
+                  bgGradient="linear(to-r, #318ce7, #82BDD3)"
+                  as="form"
+                  onSubmit={handleSubmit}
+                  w="full"
+                  maxW="md"
+                >
                   <Text mb={4} textAlign="center">
                     Choose your favorite topic and difficulty level to start the quiz.
                   </Text>
@@ -280,13 +293,13 @@ const QuizApp = () => {
             {/* Quiz Questions Section */}
             {quiz.length > 0 && (
               <>
-              <Text textAlign="center" mb={3} fontFamily="Arial, sans-serif" fontSize="lg">
-  Total Questions: {quiz.length} 📝, Correct Answers: {countCorrects} ✅, Incorrect Answers: {countIncorrect} ❌
-  <br />
-  Difficulty: {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} 🌟
-  <br />
-  Coins earned: {countCorrects} 💰
-</Text>
+                <Text textAlign="center" mb={3} fontFamily="Arial, sans-serif" fontSize="lg">
+                  Total Questions: {quiz.length} 📝, Correct Answers: {countCorrects} ✅, Incorrect Answers: {countIncorrect} ❌
+                  <br />
+                  Difficulty: {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} 🌟
+                  <br />
+                  Coins earned: {countCorrects} 💰
+                </Text>
 
                 <Progress
                   value={(questionNumber / quiz.length) * 100}
@@ -309,6 +322,7 @@ const QuizApp = () => {
                       onClick={() => setQuestionNumber(questionNumber + 1)}
                       mt={3}
                       colorScheme="blue"
+                      mb={5}
                     >
                       Next
                     </Button>
@@ -317,6 +331,7 @@ const QuizApp = () => {
                       onClick={handleTryAnother}
                       mt={3}
                       colorScheme="blue"
+                      mb={5}
                     >
                       Try Another
                     </Button>
@@ -371,3 +386,4 @@ const QuizApp = () => {
 };
 
 export default QuizApp;
+

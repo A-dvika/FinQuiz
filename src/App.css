@@ -3,8 +3,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('https://img.freepik.com/free-vector/hand-painted-watercolor-abstract-background_23-2148998041.jpg'); /* Replace with the path to your image */
+  background: linear-gradient(to right, #3a7bd5, #3a6073);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-} 
+}
