@@ -1,6 +1,5 @@
 import { Box, Button, Text, Grid } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import './q.css';
 
 type QuizCardProps = {
   id: number;
@@ -10,13 +9,13 @@ type QuizCardProps = {
   checkAnswer: (id: number, answer: number) => void;
 };
 
-export default function QuizCard({
+const QuizCard = ({
   id,
   question,
   options,
   correct_answer,
   checkAnswer,
-}: QuizCardProps) {
+}: QuizCardProps) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   const handleAnswerClick = (answerIndex: number) => {
@@ -31,18 +30,18 @@ export default function QuizCard({
   return (
     <Box
       w="full"
-      maxW="3xl"
-      p={12}
-      boxShadow="xl"
+      maxW="xl"
+      p={8}
+      boxShadow="lg"
       rounded="xl"
       bgGradient="linear(to-r, #318ce7, #82BDD3)"
       fontFamily="Arial"
       className="quiz-card"
     >
-      <Text fontSize="2xl" fontWeight="bold" mb={6} color="white">
+      <Text fontSize="xl" fontWeight="bold" mb={6} color="black">
         {id + 1}. {question}
       </Text>
-      <Grid templateColumns="repeat(2, 1fr)" gap={6} w="full" mt={5}>
+      <Grid templateColumns="repeat(auto-fit, minmax(200px, 1fr))" gap={6} mt={5}>
         {options.map((option, index) => (
           <Button
             key={index}
@@ -50,26 +49,30 @@ export default function QuizCard({
             isDisabled={selectedAnswer !== null}
             onClick={() => handleAnswerClick(index)}
             w="full"
-            bg={selectedAnswer === index ? "white.400" : "white"}
+            bg={selectedAnswer === index ? "blue.500" : "gray.200"}
             color={selectedAnswer === index ? "white" : "black"}
-            _hover={{ bg: selectedAnswer === index ? "gray.400" : "gray.200" }}
-            h="60px"
+            _hover={{ bg: selectedAnswer === index ? "blue.600" : "gray.300" }}
+            py={6}
             className="quiz-option"
+            whiteSpace="normal"
+            textAlign="center"
           >
-            <Text fontSize="lg">{option}</Text>
+            <Text fontSize="md">{option}</Text>
           </Button>
         ))}
       </Grid>
       {selectedAnswer !== null && selectedAnswer !== correct_answer && (
-        <Text color="red.600" mt={4} fontSize="lg" className="incorrect-answer">
-          "Oops, wrong answer! 🙈. Correct answer is {options[correct_answer]}
+        <Text color="red.600" mt={4} fontSize="lg" className="incorrect-answer" textAlign="center">
+          Oops, wrong answer! 🙈 Correct answer is: {options[correct_answer]}
         </Text>
       )}
       {selectedAnswer !== null && selectedAnswer === correct_answer && (
-        <Text color="darkgreen" mt={4} fontSize="lg" className="correct-answer">
-          Congratulations! Your answer is correct. You earned 1 coin 🪙.
+        <Text color="darkgreen" mt={4} fontSize="lg" className="correct-answer" textAlign="center">
+          Congratulations! Your answer is correct. You earned 1 coin 🪙
         </Text>
       )}
     </Box>
   );
-}
+};
+
+export default QuizCard;
