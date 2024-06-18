@@ -102,7 +102,7 @@ const QuizApp = () => {
         max_tokens: 2048,
         n: 1,
         stop: null,
-        temperature: 0.7,
+        temperature: 0.5,
       });
       const data: QuizQuestion[] = JSON.parse(response.choices[0].text);
       setQuiz(data);
@@ -165,6 +165,15 @@ const QuizApp = () => {
     setTopic("");
     setDifficulty("");
     setSelectedTopic("");
+  };
+
+  const handleShuffle = () => {
+    const randomTopicIndex = Math.floor(Math.random() * topics.length);
+    const randomDifficultyIndex = Math.floor(Math.random() * difficulties.length);
+    setTopic(topics[randomTopicIndex]);
+    setDifficulty(difficulties[randomDifficultyIndex]);
+
+    generateQuiz();
   };
 
   return (
@@ -286,6 +295,30 @@ const QuizApp = () => {
                       Start Quiz
                     </Button>
                   </Flex>
+                  <Flex justify="center" mt={4}>
+                    <Button
+                      onClick={handleShuffle}
+                      colorScheme="blue"
+                      rightIcon={
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-4 h-4 ml-1"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M16                    3a7bd5,3a6073)"
+                          />
+                        </svg>
+                      }
+                    >
+                      Shuffle Topic & Difficulty
+                    </Button>
+                  </Flex>
                 </Box>
               </Center>
             )}
@@ -386,4 +419,4 @@ const QuizApp = () => {
 };
 
 export default QuizApp;
-
+ 
