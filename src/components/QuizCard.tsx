@@ -76,7 +76,7 @@ const QuizCard = ({
             textAlign="center"
             transform={selectedAnswer === index ? "scale(1.05)" : undefined}
           >
-            <Text fontSize="md">{option}</Text>
+            <Text px={4} py={2} fontSize="md">{option}</Text>
           </Button>
         ))}
       </Grid>
