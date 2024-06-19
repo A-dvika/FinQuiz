@@ -8,7 +8,7 @@ type HomeProps = {
 const Home = ({ onStart }: HomeProps) => {
   return (
     <Box
-      bgGradient="linear(to-r, #3a7bd5, #3a6073)"
+      // bgGradient="linear(to-r, #3a7bd5, #3a6073)"
       bgSize="cover"
       bgPosition="center"
       minH="100vh"
@@ -18,13 +18,14 @@ const Home = ({ onStart }: HomeProps) => {
       alignItems="center"
       p={10}
       textAlign="center"
+      bgColor="#3a7ad2"
     >
       <Heading 
         as="h1" 
         size="2xl" 
         mb={8} 
         color="white" 
-        textShadow="2px 2px 4px rgba(0, 0, 0, 0.5)"
+        // textShadow="2px 2px 4px rgba(0, 0, 0, 0.5)"
         fontFamily="'Poppins', sans-serif"
       >
         Welcome to FinQuiz 🎉
@@ -33,7 +34,7 @@ const Home = ({ onStart }: HomeProps) => {
         fontSize="xl" 
         mb={6} 
         color="white" 
-        textShadow="1px 1px 2px rgba(0, 0, 0, 0.5)"
+        // textShadow="1px 1px 2px rgba(0, 0, 0, 0.5)"
         fontFamily="'Poppins', sans-serif"
       >
         Are you ready to test your financial knowledge and compete against AI? <br />
@@ -48,6 +49,7 @@ const Home = ({ onStart }: HomeProps) => {
         color="white"
         textAlign="left"
         boxShadow="0 4px 8px rgba(0, 0, 0, 0.1)"
+        maxW="600px"
       >
         <Text fontSize="lg" mb={2}>
           🚀 <strong>How It Works:</strong>

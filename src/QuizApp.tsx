@@ -176,247 +176,254 @@ const QuizApp = () => {
     generateQuiz();
   };
 
-  return (
-    <Flex
-      direction="column"
-      align="center"
-      style={{
-        background: "linear-gradient(to right, #3a7bd5, #3a6073)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {/* Navbar */}
-      <Box w="100%" bg="blue.500" boxShadow="md">
-        <Flex
-          h={16}
-          maxWidth="6xl"
-          w="full"
-          mx="auto"
-          px={6}
-          align="center"
-          justify="center"
-        >
-          <Heading as="h1" size="lg" color="white">
-            FinQuiz
-          </Heading>
-        </Flex>
-      </Box>
-
-      {/* Main Content */}
-      <Grid templateColumns="repeat(12, 1fr)" gap={6} mt={4} width="100%">
-        {!quizStarted && (
-          <>
-            {/* Left Topics Card */}
-            <GridItem colSpan={3}>
-              <Box
-                boxShadow="md"
-                borderRadius="md"
-                p={4}
-                bgGradient="linear(to-r, #318ce7, #82BDD3)"
-                ml={9}
-              >
-                <Heading size="md" color="white">
-                  Topics for Beginners
-                </Heading>
-                <VStack align="stretch" spacing={4} mt={4}>
-                  {topicsLeft.map((topic) => (
-                    <Button
-                      key={topic}
-                      onClick={() => handleTopicSelect(topic)}
-                      colorScheme={topic === selectedTopic ? "blue" : "gray"}
-                      variant={topic === selectedTopic ? "solid" : "outline"}
-                      size="md"
-                    >
-                      {topic}
-                    </Button>
-                  ))}
-                </VStack>
-              </Box>
-            </GridItem>
-          </>
-        )}
-
-        {/* Main Quiz Content */}
-        <GridItem colSpan={quizStarted ? 12 : 6}>
-          <VStack spacing={8} align="center">
-            {/* Quiz Header */}
-            <Heading as="h2" size="lg" textAlign="center">
-              Let's test your financial knowledge!
+  
+    return (
+      <Flex
+        direction="column"
+        align="center"
+        style={{
+          background: "white",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Navbar */}
+        <Box w="100%" bg="blue.500" boxShadow="md">
+          <Flex
+            h={16}
+            maxWidth="6xl"
+            w="full"
+            mx="auto"
+            px={6}
+            align="center"
+            justify="center"
+          >
+            <Heading as="h1" size="lg" color="white">
+              FinQuiz
             </Heading>
-
-            {/* Start Quiz Section */}
-            {quiz.length === 0 && (
-              <Center>
+          </Flex>
+        </Box>
+  
+        {/* Main Content */}
+        <Grid templateColumns="repeat(12, 1fr)" gap={6} mt={4} width="100%">
+          {!quizStarted && (
+            <>
+              {/* Left Topics Card */}
+              <GridItem colSpan={3}>
                 <Box
-                  bgGradient="linear(to-r, #318ce7, #82BDD3)"
-                  as="form"
-                  onSubmit={handleSubmit}
-                  w="full"
-                  maxW="md"
+                  boxShadow="md"
+                  borderRadius="md"
+                  p={4}
+                  bgColor="#3664c6"
+                  ml={9}
                 >
-                  <Text mb={4} textAlign="center">
-                    Choose your favorite topic and difficulty level to start the quiz.
+                  <Heading size="md" color="white">
+                    Topics for Beginners
+                  </Heading>
+                  <VStack align="stretch" spacing={4} mt={4}>
+                    {topicsLeft.map((topic) => (
+                      <Button
+                        key={topic}
+                        onClick={() => handleTopicSelect(topic)}
+                        colorScheme={topic === selectedTopic ? "blue" : "gray"}
+                        variant={topic === selectedTopic ? "solid" : "outline"}
+                        size="md"
+                        _hover={{ color: "white" }}
+                      >
+                        {topic}
+                      </Button>
+                    ))}
+                  </VStack>
+                </Box>
+              </GridItem>
+            </>
+          )}
+  
+          {/* Main Quiz Content */}
+          <GridItem colSpan={quizStarted ? 12 : 6}>
+            <VStack spacing={8} align="center">
+              {/* Quiz Header */}
+              <Heading as="h2" size="lg" textAlign="center">
+                Let's test your financial knowledge!
+              </Heading>
+  
+              {/* Start Quiz Section */}
+              {quiz.length === 0 && (
+                <Center>
+                  <Box
+                    as="form"
+                    onSubmit={handleSubmit}
+                    w="full"
+                    maxW="md"
+                    bgColor="#3664c6"
+                  >
+                    <Text mb={4} textAlign="center">
+                      Choose your favorite topic and difficulty level to start the quiz.
+                    </Text>
+                    <Flex direction="column" align="center" mb={4}>
+                      <HStack spacing={4} mb={4}>
+                        {difficulties.map((level) => (
+                          <Button
+                            key={level}
+                            onClick={() => setDifficulty(level)}
+                            colorScheme={difficulty === level ? "blue" : "gray"}
+                            variant={difficulty === level ? "solid" : "outline"}
+                            _hover={{ color: "white" }}
+                          >
+                            {level.charAt(0).toUpperCase() + level.slice(1)}
+                          </Button>
+                        ))}
+                      </HStack>
+                      <Button
+                        isLoading={loading}
+                        colorScheme="blue"
+                        type="submit"
+                        rightIcon={
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                            />
+                          </svg>
+                        }
+                        _hover={{ color: "white" }}
+                      >
+                        Start Quiz
+                      </Button>
+                    </Flex>
+                    <Flex justify="center" mt={4}>
+                      <Button
+                        onClick={handleShuffle}
+                        colorScheme="blue"
+                        rightIcon={
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-4 h-4 ml-1"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M16 3a7.5 7.5 0 00-7.5 7.5H3"
+                            />
+                          </svg>
+                        }
+                        _hover={{ color: "white" }}
+                      >
+                        Shuffle Topic & Difficulty
+                      </Button>
+                    </Flex>
+                  </Box>
+                </Center>
+              )}
+  
+              {/* Quiz Questions Section */}
+              {quiz.length > 0 && (
+                <>
+                  <Text textAlign="center" mb={3} fontFamily="Arial, sans-serif" fontSize="lg">
+                    Total Questions: {quiz.length} 📝, Correct Answers: {countCorrects} ✅, Incorrect Answers: {countIncorrect} ❌
+                    <br />
+                    Difficulty: {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} 🌟
+                    <br />
+                    Coins earned: {countCorrects} 💰
                   </Text>
-                  <Flex direction="column" align="center" mb={4}>
-                    <HStack spacing={4} mb={4}>
-                      {difficulties.map((level) => (
-                        <Button
-                          key={level}
-                          onClick={() => setDifficulty(level)}
-                          colorScheme={difficulty === level ? "blue" : "gray"}
-                          variant={difficulty === level ? "solid" : "outline"}
-                        >
-                          {level.charAt(0).toUpperCase() + level.slice(1)}
-                        </Button>
-                      ))}
-                    </HStack>
-                    <Button
-                      isLoading={loading}
-                      colorScheme="blue"
-                      type="submit"
-                      rightIcon={
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-6 h-6"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                          />
-                        </svg>
-                      }
-                    >
-                      Start Quiz
-                    </Button>
-                  </Flex>
-                  <Flex justify="center" mt={4}>
-                    <Button
-                      onClick={handleShuffle}
-                      colorScheme="blue"
-                      rightIcon={
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-4 h-4 ml-1"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M16                    3a7bd5,3a6073)"
-                          />
-                        </svg>
-                      }
-                    >
-                      Shuffle Topic & Difficulty
-                    </Button>
-                  </Flex>
-                </Box>
-              </Center>
-            )}
-
-            {/* Quiz Questions Section */}
-            {quiz.length > 0 && (
-              <>
-                <Text textAlign="center" mb={3} fontFamily="Arial, sans-serif" fontSize="lg">
-                  Total Questions: {quiz.length} 📝, Correct Answers: {countCorrects} ✅, Incorrect Answers: {countIncorrect} ❌
-                  <br />
-                  Difficulty: {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} 🌟
-                  <br />
-                  Coins earned: {countCorrects} 💰
-                </Text>
-
-                <Progress
-                  value={(questionNumber / quiz.length) * 100}
-                  size="md"
-                  colorScheme="blue"
-                  w="full"
-                  maxW="md"
-                  mb={4}
-                />
-                <Box w="full" maxW="md">
-                  <QuizCard
-                    question={quiz[questionNumber].question}
-                    correct_answer={quiz[questionNumber].correct_answer}
-                    id={questionNumber}
-                    options={quiz[questionNumber].options}
-                    checkAnswer={checkAnswer}
+  
+                  <Progress
+                    value={(questionNumber / quiz.length) * 100}
+                    size="md"
+                    colorScheme="blue"
+                    w="full"
+                    maxW="md"
+                    mb={4}
                   />
-                  {questionNumber < quiz.length - 1 ? (
-                    <Button
-                      onClick={() => setQuestionNumber(questionNumber + 1)}
-                      mt={3}
-                      colorScheme="blue"
-                      mb={5}
-                    >
-                      Next
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={handleTryAnother}
-                      mt={3}
-                      colorScheme="blue"
-                      mb={5}
-                    >
-                      Try Another
-                    </Button>
-                  )}
+                  <Box w="full" maxW="md">
+                    <QuizCard
+                      question={quiz[questionNumber].question}
+                      correct_answer={quiz[questionNumber].correct_answer}
+                      id={questionNumber}
+                      options={quiz[questionNumber].options}
+                      checkAnswer={checkAnswer}
+                    />
+                    {questionNumber < quiz.length - 1 ? (
+                      <Button
+                        onClick={() => setQuestionNumber(questionNumber + 1)}
+                        mt={3}
+                        colorScheme="blue"
+                        mb={5}
+                        _hover={{ color: "white" }}
+                      >
+                        Next
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={handleTryAnother}
+                        mt={3}
+                        colorScheme="blue"
+                        mb={5}
+                        _hover={{ color: "white" }}
+                      >
+                        Try Another
+                      </Button>
+                    )}
+                  </Box>
+                </>
+              )}
+  
+              {/* Loading Spinner */}
+              {loading && (
+                <Box display="flex" justifyContent="center" mt={4}>
+                  <Spinner size="xl" />
                 </Box>
-              </>
-            )}
-
-            {/* Loading Spinner */}
-            {loading && (
-              <Box display="flex" justifyContent="center" mt={4}>
-                <Spinner size="xl" />
-              </Box>
-            )}
-          </VStack>
-        </GridItem>
-
-        {!quizStarted && (
-          <>
-            {/* Right Topics Card */}
-            <GridItem colSpan={3}>
-              <Box
-                boxShadow="md"
-                borderRadius="md"
-                p={4}
-                bgGradient="linear(to-r, #318ce7, #82BDD3)"
-                mr={9}
-              >
-                <Heading size="md" color="white">
-                  Topics for Experts
-                </Heading>
-                <VStack align="stretch" spacing={4} mt={4}>
-                  {topicsRight.map((topic) => (
-                    <Button
-                      key={topic}
-                      onClick={() => handleTopicSelect(topic)}
-                      colorScheme={topic === selectedTopic ? "blue" : "gray"}
-                      variant={topic === selectedTopic ? "solid" : "outline"}
-                      size="md"
-                    >
-                      {topic}
-                    </Button>
-                  ))}
-                </VStack>
-              </Box>
-            </GridItem>
-          </>
-        )}
-      </Grid>
-    </Flex>
-  );
-};
-
-export default QuizApp;
- 
+              )}
+            </VStack>
+          </GridItem>
+  
+          {!quizStarted && (
+            <>
+              {/* Right Topics Card */}
+              <GridItem colSpan={3}>
+                <Box
+                  boxShadow="md"
+                  borderRadius="md"
+                  p={4}
+                  bgColor="#3664c6"
+                  mr={9}
+                >
+                  <Heading size="md" color="white">
+                    Topics for Experts
+                  </Heading>
+                  <VStack align="stretch" spacing={4} mt={4}>
+                    {topicsRight.map((topic) => (
+                      <Button
+                        key={topic}
+                        onClick={() => handleTopicSelect(topic)}
+                        colorScheme={topic === selectedTopic ? "blue" : "gray"}
+                        variant={topic === selectedTopic ? "solid" : "outline"}
+                        size="md"
+                        _hover={{ color: "white" }}
+                      >
+                        {topic}
+                      </Button>
+                    ))}
+                  </VStack>
+                </Box>
+              </GridItem>
+            </>
+          )}
+        </Grid>
+      </Flex>
+    );
+  };
+  
+  export default QuizApp;

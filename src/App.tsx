@@ -18,8 +18,9 @@ function App() {
         display="flex"
         flexDirection="column"
         minHeight="100vh"
-         bgGradient="linear(to-r, #3a7bd5, #3a6073)"
+        //  bgGradient="linear(to-r, #3a7bd5, #3a6073)"
         bgSize="cover"
+        bgColor="white"
         bgPosition="center"
       >
         

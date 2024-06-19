@@ -3,8 +3,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, #3a7bd5, #3a6073);
+  /* background: linear-gradient(to right, #3a7bd5, #3a6073); */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background: azure;
 }

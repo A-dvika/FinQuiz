@@ -34,7 +34,8 @@ const QuizCard = ({
       p={8}
       boxShadow="lg"
       rounded="xl"
-      bgGradient="linear(to-r, #318ce7, #82BDD3)"
+      // bgGradient="linear(to-r, #318ce7, #82BDD3)"
+      bgColor="#3664c6"
       fontFamily="Arial"
       className="quiz-card"
     >
