@@ -1,6 +1,5 @@
 import { Box, Button, Text, Grid } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-
 type QuizCardProps = {
   id: number;
   question: string;
@@ -21,6 +20,11 @@ const QuizCard = ({
   const handleAnswerClick = (answerIndex: number) => {
     setSelectedAnswer(answerIndex); // Set selected answer
     checkAnswer(id, answerIndex); // Check answer
+    const isCorrect = answerIndex === correct_answer;
+    console.log('here')
+    const audio = new Audio(isCorrect ? '/correct_answer.mp3' : '/wrong_answer.mp3');
+    console.log('here')
+    audio.play();
   };
 
   useEffect(() => {
@@ -35,7 +39,7 @@ const QuizCard = ({
       boxShadow="lg"
       rounded="xl"
       // bgGradient="linear(to-r, #318ce7, #82BDD3)"
-      bgColor="#3664c6"
+      bgColor="white"
       fontFamily="Arial"
       className="quiz-card"
     >
@@ -51,27 +55,43 @@ const QuizCard = ({
             onClick={() => handleAnswerClick(index)}
             w="full"
             minH="60px"
-            bg={selectedAnswer === index ? "blue.500" : "gray.200"}
-            color={selectedAnswer === index ? "white" : "black"}
-            _hover={{ bg: selectedAnswer === index ? "blue.600" : "gray.300" }}
+            bg={
+              selectedAnswer === null ? "gray.200"
+              : index === correct_answer ? "green.500"
+              :"red.500"
+              
+            }
+            color={
+              selectedAnswer === null ? "black"
+              : index === correct_answer || index === selectedAnswer ? "white"
+              : "white"
+            }
+            _hover={{  bg: selectedAnswer === null ? "blue.600" : undefined,
+              color: selectedAnswer === null ? "white" : undefined
+             }}
             py={6}
             className="quiz-option"
             whiteSpace="normal"
             overflowWrap="break-word"
             textAlign="center"
+            transform={selectedAnswer === index ? "scale(1.05)" : undefined}
           >
             <Text fontSize="md">{option}</Text>
           </Button>
         ))}
       </Grid>
       {selectedAnswer !== null && selectedAnswer !== correct_answer && (
-        <Text color="red.600" mt={4} fontSize="lg" className="incorrect-answer" textAlign="center">
-          Oops, wrong answer! 🙈 Correct answer is: {options[correct_answer]}
+        <Text color="red.500" mt={4} fontSize="lg" className="incorrect-answer" textAlign="center">
+          Oops, wrong answer! 🙈 
+          <br />
+          Correct answer is: {options[correct_answer]}
         </Text>
       )}
       {selectedAnswer !== null && selectedAnswer === correct_answer && (
         <Text color="darkgreen" mt={4} fontSize="lg" className="correct-answer" textAlign="center">
-          Congratulations! Your answer is correct. You earned 1 coin 🪙
+          Congratulations! 
+          <br />
+          Your answer is correct. You earned 1 coin 🪙
         </Text>
       )}
     </Box>

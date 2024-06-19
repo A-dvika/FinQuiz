@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import QuizCard from "./components/QuizCard";
 import "./styles.css";
+import { FaRandom ,FaArrowRight } from 'react-icons/fa'; 
 
 const openai = new OpenAi({
   apiKey: import.meta.env.VITE_OPEN_API_KEY,
@@ -188,7 +189,7 @@ const QuizApp = () => {
         }}
       >
         {/* Navbar */}
-        <Box w="100%" bg="blue.500" boxShadow="md">
+        <Box w="100%" bg="#0067B3" boxShadow="md">
           <Flex
             h={16}
             maxWidth="6xl"
@@ -205,7 +206,7 @@ const QuizApp = () => {
         </Box>
   
         {/* Main Content */}
-        <Grid templateColumns="repeat(12, 1fr)" gap={6} mt={4} width="100%">
+        <Grid templateColumns="repeat(12, 1fr)" gap={6}  width="100%" bg = "#60A3D9">
           {!quizStarted && (
             <>
               {/* Left Topics Card */}
@@ -213,11 +214,14 @@ const QuizApp = () => {
                 <Box
                   boxShadow="md"
                   borderRadius="md"
+                  
                   p={4}
-                  bgColor="#3664c6"
+                  bgColor="white"
                   ml={9}
+                  mt={3}
+                  mb={3}
                 >
-                  <Heading size="md" color="white">
+                  <Heading size="md" color="black" textAlign="center">
                     Topics for Beginners
                   </Heading>
                   <VStack align="stretch" spacing={4} mt={4}>
@@ -226,9 +230,9 @@ const QuizApp = () => {
                         key={topic}
                         onClick={() => handleTopicSelect(topic)}
                         colorScheme={topic === selectedTopic ? "blue" : "gray"}
-                        variant={topic === selectedTopic ? "solid" : "outline"}
                         size="md"
-                        _hover={{ color: "white" }}
+                        _hover={{ bg:"blue.500", color:"white"}}
+                        
                       >
                         {topic}
                       </Button>
@@ -243,7 +247,7 @@ const QuizApp = () => {
           <GridItem colSpan={quizStarted ? 12 : 6}>
             <VStack spacing={8} align="center">
               {/* Quiz Header */}
-              <Heading as="h2" size="lg" textAlign="center">
+              <Heading as="h1" size="xl" textAlign="center" color = "white" mt = {10}>
                 Let's test your financial knowledge!
               </Heading>
   
@@ -255,11 +259,12 @@ const QuizApp = () => {
                     onSubmit={handleSubmit}
                     w="full"
                     maxW="md"
-                    bgColor="#3664c6"
+                    bgColor="white"
+
                   >
-                    <Text mb={4} textAlign="center">
+                    <Heading as="h3"  size = "md" mb={4} textAlign="center">
                       Choose your favorite topic and difficulty level to start the quiz.
-                    </Text>
+                    </Heading>
                     <Flex direction="column" align="center" mb={4}>
                       <HStack spacing={4} mb={4}>
                         {difficulties.map((level) => (
@@ -267,8 +272,7 @@ const QuizApp = () => {
                             key={level}
                             onClick={() => setDifficulty(level)}
                             colorScheme={difficulty === level ? "blue" : "gray"}
-                            variant={difficulty === level ? "solid" : "outline"}
-                            _hover={{ color: "white" }}
+                            _hover={{ bg: "blue.500",color: "white" }}
                           >
                             {level.charAt(0).toUpperCase() + level.slice(1)}
                           </Button>
@@ -278,23 +282,8 @@ const QuizApp = () => {
                         isLoading={loading}
                         colorScheme="blue"
                         type="submit"
-                        rightIcon={
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-6 h-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                            />
-                          </svg>
-                        }
-                        _hover={{ color: "white" }}
+                        rightIcon={<FaArrowRight color="white" style={{ width: '16px', height: '16px' }} />}
+                        _hover={{transform: "scale(1.05)"}}
                       >
                         Start Quiz
                       </Button>
@@ -303,23 +292,8 @@ const QuizApp = () => {
                       <Button
                         onClick={handleShuffle}
                         colorScheme="blue"
-                        rightIcon={
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="w-4 h-4 ml-1"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M16 3a7.5 7.5 0 00-7.5 7.5H3"
-                            />
-                          </svg>
-                        }
-                        _hover={{ color: "white" }}
+                        rightIcon={<FaRandom color="white" style={{ width: '16px', height: '16px' }} />}
+                        _hover={{transform: "scale(1.05)"}}
                       >
                         Shuffle Topic & Difficulty
                       </Button>
@@ -331,7 +305,7 @@ const QuizApp = () => {
               {/* Quiz Questions Section */}
               {quiz.length > 0 && (
                 <>
-                  <Text textAlign="center" mb={3} fontFamily="Arial, sans-serif" fontSize="lg">
+                  <Text textAlign="center" mb={3} fontFamily="Arial, sans-serif" fontSize="lg" color = "white">
                     Total Questions: {quiz.length} 📝, Correct Answers: {countCorrects} ✅, Incorrect Answers: {countIncorrect} ❌
                     <br />
                     Difficulty: {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} 🌟
@@ -355,27 +329,35 @@ const QuizApp = () => {
                       options={quiz[questionNumber].options}
                       checkAnswer={checkAnswer}
                     />
-                    {questionNumber < quiz.length - 1 ? (
-                      <Button
-                        onClick={() => setQuestionNumber(questionNumber + 1)}
-                        mt={3}
-                        colorScheme="blue"
-                        mb={5}
-                        _hover={{ color: "white" }}
-                      >
-                        Next
-                      </Button>
-                    ) : (
-                      <Button
-                        onClick={handleTryAnother}
-                        mt={3}
-                        colorScheme="blue"
-                        mb={5}
-                        _hover={{ color: "white" }}
-                      >
-                        Try Another
-                      </Button>
-                    )}
+                    <Center mt={3} mb={5}>
+                      {questionNumber < quiz.length - 1 ? (
+                        <Button
+                          onClick={() => setQuestionNumber(questionNumber + 1)}
+                          mt={3}
+                          mb={5}
+                          size="lg"
+                          bg="white"
+                          color = "blue.700"
+                          _hover={{ bg:"blue.700", color:"white", transform: "scale(1.05)" }}
+                          _active={{ bg:"blue.700",color: "white", transform: "scale(0.95)" }}
+                        >
+                          Next
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={handleTryAnother}
+                          mt={3}
+                          mb={5}
+                          size="lg"
+                          bg="white"
+                          color = "blue.700"
+                          _hover={{ bg:"blue.700", color:"white", transform: "scale(1.05)" }}
+                          _active={{ bg:"blue.700",color: "white", transform: "scale(0.95)" }}
+                        >
+                          Try Another
+                        </Button>
+                      )}
+                    </Center>
                   </Box>
                 </>
               )}
@@ -397,10 +379,12 @@ const QuizApp = () => {
                   boxShadow="md"
                   borderRadius="md"
                   p={4}
-                  bgColor="#3664c6"
+                  bgColor="white"
                   mr={9}
+                  mt={3}
+                  mb={3}
                 >
-                  <Heading size="md" color="white">
+                  <Heading size="md" color="black" textAlign="center">
                     Topics for Experts
                   </Heading>
                   <VStack align="stretch" spacing={4} mt={4}>
@@ -409,9 +393,9 @@ const QuizApp = () => {
                         key={topic}
                         onClick={() => handleTopicSelect(topic)}
                         colorScheme={topic === selectedTopic ? "blue" : "gray"}
-                        variant={topic === selectedTopic ? "solid" : "outline"}
                         size="md"
-                        _hover={{ color: "white" }}
+                        _hover={{ bg:"blue.500", color:"white"}}
+
                       >
                         {topic}
                       </Button>
