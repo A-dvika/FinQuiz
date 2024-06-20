@@ -20,7 +20,7 @@ function App() {
         minHeight="100vh"
         //  bgGradient="linear(to-r, #3a7bd5, #3a6073)"
         bgSize="cover"
-        bgColor="white"
+        bgColor="#60A3D9"
         bgPosition="center"
       >
         
