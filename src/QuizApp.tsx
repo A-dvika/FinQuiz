@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import OpenAi from "openai";
+
 import {
   Box,
   Button,
@@ -18,11 +18,12 @@ import {
 import QuizCard from "./components/QuizCard";
 import "./styles.css";
 import { FaRandom, FaArrowRight } from "react-icons/fa";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const openai = new OpenAi({
-  apiKey: import.meta.env.VITE_OPEN_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
+
+
+
+
 
 interface QuizQuestion {
   question: string;
@@ -77,7 +78,7 @@ const QuizApp = () => {
       setTopic(selectedTopic);
     }
   };
-
+  
   const generateQuiz = async () => {
     setQuiz([]);
     setCountCorrect(0);
@@ -91,37 +92,52 @@ const QuizApp = () => {
         return prevProgress;
       });
     }, 300);
-
     try {
-      const prompt = `Generate a JSON array containing 10 different multiple-choice questions on the topic "${topic}" with a difficulty level of "${difficulty}". Each question should have 4 options and indicate the correct answer. Use this format 
-        [
-          {
-            "question": "",
-            "options": [
-              "",
-              "",
-              "",
-              ""
-            ],
-            "correct_answer": 0 // index of the correct answer option
-          }
-        ]
-      `;
-
-      const response = await openai.completions.create({
-        model: "gpt-3.5-turbo-instruct",
-        prompt,
-        max_tokens: 2048,
-        n: 1,
-        stop: null,
-        temperature: 0.5,
+      const apiKey= "AIzaSyACv1xAhH01GQuRAJXOJLaAUcwK8elxKto";
+      console.log("API Key:", apiKey); // Logging API key to check if it is loaded correctly
+      if (!apiKey) {
+        throw new Error("API key is not defined");
+      }
+      const genAI = new GoogleGenerativeAI(apiKey);
+      
+      const model = genAI.getGenerativeModel({
+        model: "gemini-1.5-flash",
       });
-      const data: QuizQuestion[] = JSON.parse(response.choices[0].text);
+
+      
+     const prompt = `Generate a JSON array containing 10 different multiple-choice questions on the topic "${topic}" with a difficulty level of "${difficulty}". Each question should have 4 options and indicate the correct answer. The correct answer should be represented by an index number (0 to 3) indicating the position of the correct option in the "options" array. Do not include comments or any other text outside the JSON structure. Use this format:
+[
+  {
+    "question": "Sample question?",
+    "options": [
+      "Option 1",
+      "Option 2",
+      "Option 3",
+      "Option 4"
+    ],
+    "correct_answer": 0
+  },
+  {
+    "question": "Another sample question?",
+    "options": [
+      "Option A",
+      "Option B",
+      "Option C",
+      "Option D"
+    ],
+    "correct_answer": 1
+  }
+]`;
+      const result = await model.generateContent(prompt);
+      console.log("API Response:", result.response.text());
+
+      const data: QuizQuestion[] = JSON.parse(result.response.text());
       setQuiz(data);
       setQuizStarted(true);
       clearInterval(loadingInterval);
       setLoadingProgress(100);
     } catch (error) {
+      console.error("Error generating quiz:", error); // Log the error
       clearInterval(loadingInterval);
       setLoadingProgress(0);
       toast({
@@ -147,6 +163,7 @@ const QuizApp = () => {
       });
       return;
     }
+    console.log("Generating quiz with topic:", topic, "and difficulty:", difficulty);
     generateQuiz();
   };
 
