@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Box,
   Button,
@@ -19,11 +18,6 @@ import QuizCard from "./components/QuizCard";
 import "./styles.css";
 import { FaRandom, FaArrowRight } from "react-icons/fa";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
-
-
-
-
 
 interface QuizQuestion {
   question: string;
@@ -72,62 +66,49 @@ const QuizApp = () => {
 
   const handleTopicSelect = (selectedTopic: string) => {
     setSelectedTopic(selectedTopic);
-    if (topic === selectedTopic) {
-      setTopic("");
-    } else {
-      setTopic(selectedTopic);
-    }
+    setTopic(selectedTopic === topic ? "" : selectedTopic);
   };
-  
+
   const generateQuiz = async () => {
     setQuiz([]);
     setCountCorrect(0);
     setLoading(true);
     setLoadingProgress(0);
     const loadingInterval = setInterval(() => {
-      setLoadingProgress((prevProgress) => {
-        if (prevProgress < 90) {
-          return prevProgress + 10;
-        }
-        return prevProgress;
-      });
+      setLoadingProgress((prevProgress) => (prevProgress < 90 ? prevProgress + 10 : prevProgress));
     }, 300);
     try {
-      const apiKey= import.meta.env.REACT_APP_GEMINI_API_KEY;
-      console.log("API Key:", apiKey); // Logging API key to check if it is loaded correctly
+      const apiKey = import.meta.env.VITE_APP_GEMINI_API_KEY;
       if (!apiKey) {
         throw new Error("API key is not defined");
       }
-      const genAI = new GoogleGenerativeAI(apiKey);
-      
-      const model = genAI.getGenerativeModel({
-        model: "gemini-1.5-flash",
-      });
 
-      
-     const prompt = `Generate a JSON array containing 10 different multiple-choice questions on the topic "${topic}" with a difficulty level of "${difficulty}". Each question should have 4 options and indicate the correct answer. The correct answer should be represented by an index number (0 to 3) indicating the position of the correct option in the "options" array. Do not include comments or any other text outside the JSON structure. Use this format:
-[
-  {
-    "question": "Sample question?",
-    "options": [
-      "Option 1",
-      "Option 2",
-      "Option 3",
-      "Option 4"
-    ],
-    "correct_answer": 0
-  },
-  {
-    "question": "Another sample question?",
-    "options": [
-      "Option A",
-      "Option B",
-      "Option C",
-      "Option D"
-    ],
-    "correct_answer": 1
-  }
-]`;
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+      const prompt = `Generate a JSON array containing 10 different multiple-choice questions on the topic "${topic}" with a difficulty level of "${difficulty}". Each question should have 4 options and indicate the correct answer. The correct answer should be represented by an index number (0 to 3) indicating the position of the correct option in the "options" array. Do not include comments or any other text outside the JSON structure. Use this format:
+      [
+        {
+          "question": "Sample question?",
+          "options": [
+            "Option 1",
+            "Option 2",
+            "Option 3",
+            "Option 4"
+          ],
+          "correct_answer": 0
+        },
+        {
+          "question": "Another sample question?",
+          "options": [
+            "Option A",
+            "Option B",
+            "Option C",
+            "Option D"
+          ],
+          "correct_answer": 1
+        }
+      ]`;
       const result = await model.generateContent(prompt);
       console.log("API Response:", result.response.text());
 
