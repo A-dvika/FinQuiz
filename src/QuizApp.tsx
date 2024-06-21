@@ -93,7 +93,7 @@ const QuizApp = () => {
       });
     }, 300);
     try {
-      const apiKey= "AIzaSyACv1xAhH01GQuRAJXOJLaAUcwK8elxKto";
+      const apiKey= process.env.REACT_APP_GEMINI_API_KEY;
       console.log("API Key:", apiKey); // Logging API key to check if it is loaded correctly
       if (!apiKey) {
         throw new Error("API key is not defined");
